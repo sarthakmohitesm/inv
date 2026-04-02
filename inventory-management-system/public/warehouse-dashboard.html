@@ -12,7 +12,7 @@
         <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <div class="sidebar-logo">📦</div>
+                <div class="sidebar-logo">IT</div>
                 <div class="sidebar-brand">
                     InvenTrack
                     <small>Warehouse Panel</small>
@@ -21,14 +21,14 @@
             <nav class="sidebar-nav">
                 <div class="nav-label">Main</div>
                 <div class="nav-item active" onclick="showSection('dashboard')" id="nav-dashboard">
-                    <span class="icon">📊</span> Dashboard
+                    <span class="icon">⊞</span> Dashboard
                 </div>
                 <div class="nav-item" onclick="showSection('stock')" id="nav-stock">
-                    <span class="icon">📋</span> Warehouse Stock
+                    <span class="icon">▤</span> Warehouse Stock
                 </div>
                 <div class="nav-label">Requests</div>
                 <div class="nav-item" onclick="showSection('requests')" id="nav-requests">
-                    <span class="icon">📝</span> Incoming Requests
+                    <span class="icon">⊡</span> Incoming Requests
                 </div>
             </nav>
             <div class="sidebar-footer">
@@ -40,7 +40,7 @@
                     </div>
                 </div>
                 <button class="btn btn-outline btn-block" onclick="logout()" style="margin-top: 10px;">
-                    🚪 Logout
+                    Logout
                 </button>
             </div>
         </aside>
@@ -54,7 +54,7 @@
                 </div>
                 <div class="topbar-right">
                     <button class="notification-btn" onclick="toggleNotifications()" id="notif-btn">
-                        🔔
+                        ●
                         <span class="notification-badge" id="notif-count" style="display:none;">0</span>
                     </button>
                 </div>
@@ -65,28 +65,28 @@
                 <div class="stats-grid">
                     <div class="stat-card purple">
                         <div class="stat-card-top">
-                            <div class="stat-icon">📦</div>
+                            <div class="stat-icon">▣</div>
                             <span class="stat-label">Total Products</span>
                         </div>
                         <div class="stat-value" id="stat-total-products">0</div>
                     </div>
                     <div class="stat-card blue">
                         <div class="stat-card-top">
-                            <div class="stat-icon">📊</div>
+                            <div class="stat-icon">▤</div>
                             <span class="stat-label">Total Stock Units</span>
                         </div>
                         <div class="stat-value" id="stat-total-stock">0</div>
                     </div>
                     <div class="stat-card orange">
                         <div class="stat-card-top">
-                            <div class="stat-icon">⏳</div>
+                            <div class="stat-icon">◷</div>
                             <span class="stat-label">Pending Requests</span>
                         </div>
                         <div class="stat-value" id="stat-pending-requests">0</div>
                     </div>
                     <div class="stat-card green">
                         <div class="stat-card-top">
-                            <div class="stat-icon">✅</div>
+                            <div class="stat-icon">✓</div>
                             <span class="stat-label">Completed</span>
                         </div>
                         <div class="stat-value" id="stat-completed">0</div>
@@ -96,12 +96,12 @@
                 <!-- Quick Actions -->
                 <div class="panel">
                     <div class="panel-header">
-                        <div class="panel-title">⚡ Quick Actions</div>
+                        <div class="panel-title">Quick Actions</div>
                     </div>
                     <div class="panel-body">
                         <div class="action-buttons">
-                            <button class="btn btn-primary" onclick="showSection('requests')">📝 View Pending Requests</button>
-                            <button class="btn btn-success" onclick="showSection('stock')">📋 Manage Stock</button>
+                            <button class="btn btn-primary" onclick="showSection('requests')">View Pending Requests</button>
+                            <button class="btn btn-success" onclick="showSection('stock')">Manage Stock</button>
                         </div>
                     </div>
                 </div>
@@ -111,7 +111,7 @@
             <div class="section" id="section-stock">
                 <div class="panel">
                     <div class="panel-header">
-                        <div class="panel-title">📋 Warehouse Stock</div>
+                        <div class="panel-title">Warehouse Stock</div>
                     </div>
                     <div class="panel-body">
                         <div class="table-container">
@@ -138,7 +138,7 @@
             <div class="section" id="section-requests">
                 <div class="panel">
                     <div class="panel-header">
-                        <div class="panel-title">📝 Incoming Requests from Inventory</div>
+                        <div class="panel-title">Incoming Requests from Inventory</div>
                     </div>
                     <div class="panel-body">
                         <div class="table-container">
@@ -158,7 +158,7 @@
                             </table>
                         </div>
                         <div class="empty-state" id="no-requests" style="display:none;">
-                            <div class="icon">📭</div>
+                            <div class="icon">—</div>
                             <h3>No incoming requests</h3>
                             <p>All caught up! No pending requests.</p>
                         </div>
@@ -171,7 +171,7 @@
     <!-- Notification Panel -->
     <div class="notification-panel" id="notification-panel">
         <div class="notif-header">
-            <h2>🔔 Notifications</h2>
+            <h2>Notifications</h2>
             <button class="modal-close" onclick="toggleNotifications()">✕</button>
         </div>
         <div class="notif-list" id="notif-list">

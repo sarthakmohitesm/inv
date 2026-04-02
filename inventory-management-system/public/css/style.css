@@ -878,7 +878,19 @@ a:hover { color: var(--primary-700); }
     box-shadow: 0 0 0 2px rgba(76, 110, 245, 0.15);
 }
 
-.role-option .role-icon { font-size: 22px; }
+.role-option .role-icon {
+    font-size: 16px;
+    font-weight: 800;
+    width: 40px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-50);
+    color: var(--primary-600);
+    border-radius: var(--radius-md);
+    letter-spacing: -0.02em;
+}
 .role-option .role-name { font-size: 12px; font-weight: 600; color: var(--text-2); }
 
 /* ============================================
