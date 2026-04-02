@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Inventory Management System - Login or Register to manage your inventory efficiently">
+    <title>Inventory Management System - Login</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="auth-wrapper">
+        <div class="auth-container">
+            <div class="auth-card">
+                <!-- Header -->
+                <div class="auth-header">
+                    <div class="auth-logo">📦</div>
+                    <h1>InvenTrack</h1>
+                    <p>Inventory Management System</p>
+                </div>
+
+                <!-- Tabs -->
+                <div class="auth-tabs">
+                    <button class="auth-tab active" onclick="switchAuthTab('login')" id="login-tab">Sign In</button>
+                    <button class="auth-tab" onclick="switchAuthTab('register')" id="register-tab">Sign Up</button>
+                </div>
+
+                <!-- Login Form -->
+                <form class="auth-form active" id="login-form" onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label for="login-email">Email Address</label>
+                        <input type="email" id="login-email" class="form-input" placeholder="you@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" class="form-input" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" id="login-btn">
+                        Sign In →
+                    </button>
+                </form>
+
+                <!-- Register Form -->
+                <form class="auth-form" id="register-form" onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label for="reg-name">Full Name</label>
+                        <input type="text" id="reg-name" class="form-input" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-email">Email Address</label>
+                        <input type="email" id="reg-email" class="form-input" placeholder="you@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-phone">Phone Number</label>
+                        <input type="tel" id="reg-phone" class="form-input" placeholder="+91 9876543210">
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-password">Password</label>
+                        <input type="password" id="reg-password" class="form-input" placeholder="Min 6 characters" required minlength="6">
+                    </div>
+                    <div class="form-group">
+                        <label>Select Your Role</label>
+                        <div class="role-selector">
+                            <div class="role-option">
+                                <input type="radio" name="role" id="role-retailer" value="retailer" required>
+                                <label for="role-retailer">
+                                    <span class="role-icon">🛒</span>
+                                    <span class="role-name">Retailer</span>
+                                </label>
+                            </div>
+                            <div class="role-option">
+                                <input type="radio" name="role" id="role-inventory" value="inventory">
+                                <label for="role-inventory">
+                                    <span class="role-icon">📦</span>
+                                    <span class="role-name">Inventory</span>
+                                </label>
+                            </div>
+                            <div class="role-option">
+                                <input type="radio" name="role" id="role-warehouse" value="warehouse">
+                                <label for="role-warehouse">
+                                    <span class="role-icon">🏭</span>
+                                    <span class="role-name">Warehouse</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block" id="register-btn">
+                        Create Account →
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="/js/auth.js"></script>
+</body>
+</html>

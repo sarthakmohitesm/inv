@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Warehouse Manager Dashboard - Manage main storage, approve stock requests, and track shipments">
+    <title>Warehouse Dashboard - InvenTrack</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">📦</div>
+                <div class="sidebar-brand">
+                    InvenTrack
+                    <small>Warehouse Panel</small>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-label">Main</div>
+                <div class="nav-item active" onclick="showSection('dashboard')" id="nav-dashboard">
+                    <span class="icon">📊</span> Dashboard
+                </div>
+                <div class="nav-item" onclick="showSection('stock')" id="nav-stock">
+                    <span class="icon">📋</span> Warehouse Stock
+                </div>
+                <div class="nav-label">Requests</div>
+                <div class="nav-item" onclick="showSection('requests')" id="nav-requests">
+                    <span class="icon">📝</span> Incoming Requests
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar" id="user-avatar">W</div>
+                    <div class="user-details">
+                        <div class="user-name" id="user-name">Warehouse Manager</div>
+                        <div class="user-role">Warehouse Manager</div>
+                    </div>
+                </div>
+                <button class="btn btn-outline btn-block" onclick="logout()" style="margin-top: 10px;">
+                    🚪 Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="topbar">
+                <div class="topbar-left">
+                    <h1 id="page-title">Dashboard</h1>
+                    <p id="page-subtitle">Warehouse management overview</p>
+                </div>
+                <div class="topbar-right">
+                    <button class="notification-btn" onclick="toggleNotifications()" id="notif-btn">
+                        🔔
+                        <span class="notification-badge" id="notif-count" style="display:none;">0</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dashboard Section -->
+            <div class="section active" id="section-dashboard">
+                <div class="stats-grid">
+                    <div class="stat-card purple">
+                        <div class="stat-card-top">
+                            <div class="stat-icon">📦</div>
+                            <span class="stat-label">Total Products</span>
+                        </div>
+                        <div class="stat-value" id="stat-total-products">0</div>
+                    </div>
+                    <div class="stat-card blue">
+                        <div class="stat-card-top">
+                            <div class="stat-icon">📊</div>
+                            <span class="stat-label">Total Stock Units</span>
+                        </div>
+                        <div class="stat-value" id="stat-total-stock">0</div>
+                    </div>
+                    <div class="stat-card orange">
+                        <div class="stat-card-top">
+                            <div class="stat-icon">⏳</div>
+                            <span class="stat-label">Pending Requests</span>
+                        </div>
+                        <div class="stat-value" id="stat-pending-requests">0</div>
+                    </div>
+                    <div class="stat-card green">
+                        <div class="stat-card-top">
+                            <div class="stat-icon">✅</div>
+                            <span class="stat-label">Completed</span>
+                        </div>
+                        <div class="stat-value" id="stat-completed">0</div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">⚡ Quick Actions</div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" onclick="showSection('requests')">📝 View Pending Requests</button>
+                            <button class="btn btn-success" onclick="showSection('stock')">📋 Manage Stock</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stock Section -->
+            <div class="section" id="section-stock">
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">📋 Warehouse Stock</div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>SKU</th>
+                                        <th>Category</th>
+                                        <th>Stock Qty</th>
+                                        <th>Min Level</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="stock-table"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Requests Section -->
+            <div class="section" id="section-requests">
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">📝 Incoming Requests from Inventory</div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Request #</th>
+                                        <th>Product</th>
+                                        <th>Requested Qty</th>
+                                        <th>Available</th>
+                                        <th>Requested By</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="requests-table"></tbody>
+                            </table>
+                        </div>
+                        <div class="empty-state" id="no-requests" style="display:none;">
+                            <div class="icon">📭</div>
+                            <h3>No incoming requests</h3>
+                            <p>All caught up! No pending requests.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Notification Panel -->
+    <div class="notification-panel" id="notification-panel">
+        <div class="notif-header">
+            <h2>🔔 Notifications</h2>
+            <button class="modal-close" onclick="toggleNotifications()">✕</button>
+        </div>
+        <div class="notif-list" id="notif-list">
+            <div class="notif-empty">No notifications yet</div>
+        </div>
+    </div>
+
+    <!-- Update Stock Modal -->
+    <div class="modal-overlay" id="stock-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Update Stock</h2>
+                <button class="modal-close" onclick="closeStockModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <form id="stock-form" onsubmit="updateStock(event)">
+                    <input type="hidden" id="stock-id">
+                    <div class="form-group">
+                        <label>Product</label>
+                        <input type="text" id="stock-product-name" class="form-input" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="stock-quantity">New Quantity</label>
+                        <input type="number" id="stock-quantity" class="form-input" min="0" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeStockModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="document.getElementById('stock-form').requestSubmit()">Update</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="/js/warehouse.js"></script>
+</body>
+</html>

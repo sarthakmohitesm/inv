@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Inventory Manager Dashboard - Manage stock, process orders, and request warehouse supplies">
+    <title>Inventory Dashboard - InvenTrack</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">📦</div>
+                <div class="sidebar-brand">
+                    InvenTrack
+                    <small>Inventory Panel</small>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-label">Main</div>
+                <div class="nav-item active" onclick="showSection('dashboard')" id="nav-dashboard">
+                    <span class="icon">📊</span> Dashboard
+                </div>
+                <div class="nav-item" onclick="showSection('stock')" id="nav-stock">
+                    <span class="icon">📋</span> Inventory Stock
+                </div>
+                <div class="nav-label">Orders</div>
+                <div class="nav-item" onclick="showSection('orders')" id="nav-orders">
+                    <span class="icon">📝</span> Retailer Orders
+                </div>
+                <div class="nav-item" onclick="showSection('warehouse-requests')" id="nav-wh-requests">
+                    <span class="icon">🏭</span> Warehouse Requests
+                </div>
+                <div class="nav-label">Manage</div>
+                <div class="nav-item" onclick="showSection('products')" id="nav-products">
+                    <span class="icon">📦</span> Products (CRUD)
+                </div>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar" id="user-avatar">I</div>
+                    <div class="user-details">
+                        <div class="user-name" id="user-name">Inventory Manager</div>
+                        <div class="user-role">Inventory Manager</div>
+                    </div>
+                </div>
+                <button class="btn btn-outline btn-block" onclick="logout()" style="margin-top: 10px;">
+                    🚪 Logout
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="topbar">
+                <div class="topbar-left">
+                    <h1 id="page-title">Dashboard</h1>
+                    <p id="page-subtitle">Inventory management overview</p>
+                </div>
+                <div class="topbar-right">
+                    <button class="notification-btn" onclick="toggleNotifications()" id="notif-btn">
+                        🔔
+                        <span class="notification-badge" id="notif-count" style="display:none;">0</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dashboard Section -->
+            <div class="section active" id="section-dashboard">
+                <div class="stats-grid">
+                    <div class="stat-card purple">
+                        <div class="stat-card-top">
+                            <div class="stat-icon">📦</div>
+                            <span class="stat-label">Total Products</span>
+                        </div>
+                        <div class="stat-value" id="stat-total-products">0</div>
+                    </div>
+                    <div class="stat-card blue">
+                        <div class="stat-card-top">
+                            <div class="stat-icon">📊</div>
+                            <span class="stat-label">Total Stock</span>
+                        </div>
+                        <div class="stat-value" id="stat-total-stock">0</div>
+                    </div>
+                    <div class="stat-card orange">
+                        <div class="stat-card-top">
+                            <div class="stat-icon">📝</div>
+                            <span class="stat-label">Pending Orders</span>
+                        </div>
+                        <div class="stat-value" id="stat-pending-orders">0</div>
+                    </div>
+                    <div class="stat-card green">
+                        <div class="stat-card-top">
+                            <div class="stat-icon">🏭</div>
+                            <span class="stat-label">WH Requests</span>
+                        </div>
+                        <div class="stat-value" id="stat-wh-requests">0</div>
+                    </div>
+                </div>
+
+                <!-- Quick actions -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">⚡ Quick Actions</div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="action-buttons">
+                            <button class="btn btn-primary" onclick="showSection('orders')">📝 View Pending Orders</button>
+                            <button class="btn btn-success" onclick="showSection('stock')">📋 Check Stock</button>
+                            <button class="btn btn-warning" onclick="showSection('products')">➕ Add Product</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stock Section -->
+            <div class="section" id="section-stock">
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">📋 Inventory Stock Levels</div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Category</th>
+                                        <th>Stock Qty</th>
+                                        <th>Min Level</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="stock-table"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Orders Section -->
+            <div class="section" id="section-orders">
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">📝 Retailer Orders</div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Order #</th>
+                                        <th>Retailer</th>
+                                        <th>Product</th>
+                                        <th>Qty</th>
+                                        <th>Available</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="orders-table"></tbody>
+                            </table>
+                        </div>
+                        <div class="empty-state" id="no-orders" style="display:none;">
+                            <div class="icon">📭</div>
+                            <h3>No orders</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Warehouse Requests Section -->
+            <div class="section" id="section-warehouse-requests">
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">🏭 Warehouse Requests</div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Request #</th>
+                                        <th>Product</th>
+                                        <th>Qty</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="wh-requests-table"></tbody>
+                            </table>
+                        </div>
+                        <div class="empty-state" id="no-wh-requests" style="display:none;">
+                            <div class="icon">📭</div>
+                            <h3>No warehouse requests</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products CRUD Section -->
+            <div class="section" id="section-products">
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">📦 Product Management</div>
+                        <button class="btn btn-primary btn-sm" onclick="openAddProductModal()">+ Add Product</button>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>SKU</th>
+                                        <th>Category</th>
+                                        <th>Price (₹)</th>
+                                        <th>Stock</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="products-table"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Notification Panel -->
+    <div class="notification-panel" id="notification-panel">
+        <div class="notif-header">
+            <h2>🔔 Notifications</h2>
+            <button class="modal-close" onclick="toggleNotifications()">✕</button>
+        </div>
+        <div class="notif-list" id="notif-list">
+            <div class="notif-empty">No notifications yet</div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Product Modal -->
+    <div class="modal-overlay" id="product-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="product-modal-title">Add Product</h2>
+                <button class="modal-close" onclick="closeProductModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <form id="product-form" onsubmit="saveProduct(event)">
+                    <input type="hidden" id="product-id">
+                    <div class="form-group">
+                        <label for="product-name">Product Name</label>
+                        <input type="text" id="product-name" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-sku">SKU</label>
+                        <input type="text" id="product-sku" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-category">Category</label>
+                        <input type="text" id="product-category" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="product-price">Price (₹)</label>
+                        <input type="number" id="product-price" class="form-input" step="0.01" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="product-description">Description</label>
+                        <input type="text" id="product-description" class="form-input">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeProductModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="document.getElementById('product-form').requestSubmit()">Save Product</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Warehouse Request Modal -->
+    <div class="modal-overlay" id="wh-request-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Request from Warehouse</h2>
+                <button class="modal-close" onclick="closeWhRequestModal()">✕</button>
+            </div>
+            <div class="modal-body">
+                <form id="wh-request-form" onsubmit="sendWarehouseRequest(event)">
+                    <input type="hidden" id="wh-product-id">
+                    <input type="hidden" id="wh-order-id">
+                    <div class="form-group">
+                        <label>Product</label>
+                        <input type="text" id="wh-product-name" class="form-input" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="wh-quantity">Quantity</label>
+                        <input type="number" id="wh-quantity" class="form-input" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="wh-notes">Notes</label>
+                        <input type="text" id="wh-notes" class="form-input" placeholder="Optional notes">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" onclick="closeWhRequestModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="document.getElementById('wh-request-form').requestSubmit()">Send Request</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="/js/inventory.js"></script>
+</body>
+</html>
