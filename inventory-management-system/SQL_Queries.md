@@ -1,22 +1,6 @@
-# Inventory Management System - SQL Database Setup
-
-## Instructions
-Run these queries in **MySQL Workbench** in the order listed below to create the complete database schema.
-
----
-
-## 1. Create Database
-
-```sql
 CREATE DATABASE IF NOT EXISTS inventory_management;
 USE inventory_management;
-```
 
----
-
-## 2. Users Table
-
-```sql
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     full_name VARCHAR(100) NOT NULL,
@@ -27,13 +11,7 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
-```
 
----
-
-## 3. Products Table
-
-```sql
 CREATE TABLE products (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(150) NOT NULL,
@@ -45,13 +23,7 @@ CREATE TABLE products (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
-```
 
----
-
-## 4. Warehouse Stock Table (Main Storage)
-
-```sql
 CREATE TABLE warehouse_stock (
     id INT AUTO_INCREMENT PRIMARY KEY,
     product_id INT NOT NULL,
@@ -60,13 +32,7 @@ CREATE TABLE warehouse_stock (
     last_restocked TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
-```
 
----
-
-## 5. Inventory Stock Table (Inventory Manager's Stock)
-
-```sql
 CREATE TABLE inventory_stock (
     id INT AUTO_INCREMENT PRIMARY KEY,
     product_id INT NOT NULL,
@@ -75,13 +41,7 @@ CREATE TABLE inventory_stock (
     last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
-```
 
----
-
-## 6. Retailer Stock Table (Stock Assigned to Retailers)
-
-```sql
 CREATE TABLE retailer_stock (
     id INT AUTO_INCREMENT PRIMARY KEY,
     retailer_id INT NOT NULL,
@@ -93,13 +53,7 @@ CREATE TABLE retailer_stock (
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
     UNIQUE KEY unique_retailer_product (retailer_id, product_id)
 );
-```
 
----
-
-## 7. Orders Table (Retailer to Inventory Requests)
-
-```sql
 CREATE TABLE orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     order_number VARCHAR(50) NOT NULL UNIQUE,
@@ -113,13 +67,7 @@ CREATE TABLE orders (
     FOREIGN KEY (retailer_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
-```
 
----
-
-## 8. Warehouse Requests Table (Inventory to Warehouse Requests)
-
-```sql
 CREATE TABLE warehouse_requests (
     id INT AUTO_INCREMENT PRIMARY KEY,
     request_number VARCHAR(50) NOT NULL UNIQUE,
@@ -135,13 +83,7 @@ CREATE TABLE warehouse_requests (
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
     FOREIGN KEY (requested_by) REFERENCES users(id) ON DELETE CASCADE
 );
-```
 
----
-
-## 9. Notifications Table
-
-```sql
 CREATE TABLE notifications (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -152,13 +94,7 @@ CREATE TABLE notifications (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
-```
 
----
-
-## 10. Activity Log Table
-
-```sql
 CREATE TABLE activity_log (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
@@ -167,13 +103,7 @@ CREATE TABLE activity_log (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
-```
 
----
-
-## 11. Insert Sample Products
-
-```sql
 INSERT INTO products (name, sku, description, category, price) VALUES
 ('Laptop Dell Inspiron 15', 'DELL-INS-15', 'Dell Inspiron 15 inch laptop with 8GB RAM', 'Electronics', 45999.00),
 ('Samsung Galaxy S24', 'SAM-GS24', 'Samsung Galaxy S24 128GB Smartphone', 'Electronics', 69999.00),
@@ -185,13 +115,7 @@ INSERT INTO products (name, sku, description, category, price) VALUES
 ('Seagate 1TB HDD', 'SEA-1TB-01', 'Seagate Barracuda 1TB External Hard Drive', 'Storage', 3499.00),
 ('Kingston 16GB RAM', 'KNG-16GB', 'Kingston Fury 16GB DDR4 3200MHz RAM', 'Components', 3299.00),
 ('TP-Link WiFi Router', 'TPL-WR-01', 'TP-Link Archer AX21 WiFi 6 Router', 'Networking', 4499.00);
-```
 
----
-
-## 12. Insert Sample Warehouse Stock
-
-```sql
 INSERT INTO warehouse_stock (product_id, quantity, min_stock_level) VALUES
 (1, 500, 50),
 (2, 300, 30),
@@ -203,13 +127,7 @@ INSERT INTO warehouse_stock (product_id, quantity, min_stock_level) VALUES
 (8, 600, 60),
 (9, 700, 70),
 (10, 350, 35);
-```
 
----
-
-## 13. Insert Sample Inventory Stock
-
-```sql
 INSERT INTO inventory_stock (product_id, quantity, min_stock_level) VALUES
 (1, 50, 10),
 (2, 30, 5),
@@ -221,20 +139,32 @@ INSERT INTO inventory_stock (product_id, quantity, min_stock_level) VALUES
 (8, 60, 10),
 (9, 70, 15),
 (10, 35, 8);
-```
 
----
 
-## Connection Details
 
-| Property   | Value              |
-|------------|--------------------|
-| Host       | localhost          |
-| Port       | 3306               |
-| User       | root               |
-| Password   | Pass@123           |
-| Database   | inventory_management |
+-- Show all users
+SELECT * FROM users;
 
----
+-- Show all products
+SELECT * FROM products;
 
-> **Note:** Run ALL queries above in MySQL Workbench before starting the application server.
+-- Show warehouse stock
+SELECT * FROM warehouse_stock;
+
+-- Show inventory stock
+SELECT * FROM inventory_stock;
+
+-- Show retailer stock
+SELECT * FROM retailer_stock;
+
+-- Show orders
+SELECT * FROM orders;
+
+-- Show warehouse requests
+SELECT * FROM warehouse_requests;
+
+-- Show notifications
+SELECT * FROM notifications;
+
+-- Show activity logs
+SELECT * FROM activity_log;
